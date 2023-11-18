@@ -1,6 +1,6 @@
 # AAD - CRC-8 ENCODER/CHECKER (Cyclic Redundancy Check)
 
-In order to develop a solution to protect the integrity of a message, a CRC with a polynomial of `b(x) = x^8 + x^7 + x^5 + x^2 + x + 1` should be implemented. Thus, for the given CRC generator, the corresponding binary pattern is `110100111`:
+In order to develop a solution to protect the integrity of a message, a CRC with a polynomial of `b(x) = x^8 + x^7 + x^5 + x^2 + x + 1` should be implemented. Thus, for the given CRC generator, the corresponding binary pattern is `110100111`
 
 <!-- ```c
 int b[9];
