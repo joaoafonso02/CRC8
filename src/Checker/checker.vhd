@@ -21,7 +21,7 @@ END checker;
 
 ARCHITECTURE structure OF checker IS
   SIGNAL iNSet, iNRst, iDIn, clkO: STD_LOGIC;
-  SIGNAL tCntI: STD_LOGIC_VECTOR (5 DOWNTO 0);
+  SIGNAL tCntI: STD_LOGIC_VECTOR (4 DOWNTO 0);
   SIGNAL tCntO: STD_LOGIC_VECTOR (7 DOWNTO 0);
   SIGNAL s_error : STD_LOGIC;  
   COMPONENT flipFlopDPET
@@ -33,7 +33,7 @@ ARCHITECTURE structure OF checker IS
   COMPONENT Control_Unit
     PORT (nGRst: IN STD_LOGIC;
           clk:   IN STD_LOGIC;
-          add:   IN STD_LOGIC_VECTOR (5 DOWNTO 0);
+          add:   IN STD_LOGIC_VECTOR (4 DOWNTO 0);
           nRst:  OUT STD_LOGIC;
           nSetO: OUT STD_LOGIC;
           clkO:  OUT STD_LOGIC);
@@ -44,18 +44,29 @@ ARCHITECTURE structure OF checker IS
 		y : out std_logic
 	);
 	end component;
-	component binCounter_6bit
+	component binCounter_5bit
 	PORT (nRst: IN STD_LOGIC;
         clk:  IN STD_LOGIC;
-        c:    OUT STD_LOGIC_VECTOR (5 DOWNTO 0)
+        c:    OUT STD_LOGIC_VECTOR (4 DOWNTO 0)
+	);
+	end component;
+	
+	component CRC8_LFSR
+	port(
+		clk 	 : in std_logic;
+		rst	 : in std_logic;
+		dIn	 : in std_logic;
+		dOut	 : out std_logic_vector(7 downto 0)
 	);
 	end component;
 BEGIN
-  ff:  flipFlopDPET PORT MAP (clk, s_error, iNSet, '1', error);  -- visto
-  con:   Control_Unit PORT MAP (nGRst, clk, tCntI, iNRst, iNSet, clkO); -- visto
-  OR80:	 gateOr8 PORT MAP(tCntO(0), tCntO(1), tCntO(2), tCntO(3), tCntO(4), tCntO(5), tCntO(6), tCntO(7), s_error); -- visto
-  bc: 	 binCounter_6bit PORT MAP (iNRst, clk, tCntI); -- pq 6 e pq 5
-  -- falta um, como em cima, crc8_lfsr
+  ff:  flipFlopDPET PORT MAP (clk, s_error, iNSet, '1', error); 
+  con:   Control_Unit PORT MAP (nGRst, clk, tCntI, iNRst, iNSet, clkO); 
+  OR80:	 gateOr8 PORT MAP(tCntO(0), tCntO(1), tCntO(2), tCntO(3), tCntO(4), tCntO(5), tCntO(6), tCntO(7), s_error);
+  bc: 	 binCounter_5bit PORT MAP (iNRst, clk, tCntI);
+  LFSR:  CRC8_LFSR PORT MAP (clk, iNRst, dIn, tCntO); 
+
+  
 
   
 END structure;

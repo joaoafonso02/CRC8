@@ -4,7 +4,7 @@ USE ieee.std_logic_arith.all;
 USE ieee.std_logic_unsigned.all;
 
 ENTITY contMem IS
-  PORT (add:  IN STD_LOGIC_VECTOR (5 DOWNTO 0);
+  PORT (add:  IN STD_LOGIC_VECTOR (4 DOWNTO 0);
         dOut: OUT STD_LOGIC_VECTOR (2 DOWNTO 0));
 END contMem;
 
@@ -58,7 +58,7 @@ USE ieee.std_logic_1164.all;
 entity Control_Unit is 
 	PORT (nGRst: IN STD_LOGIC;
         clk:   IN STD_LOGIC;
-        add:   IN STD_LOGIC_VECTOR (5 DOWNTO 0);
+        add:   IN STD_LOGIC_VECTOR (4 DOWNTO 0);
         nRst:  OUT STD_LOGIC;
         nSetO: OUT STD_LOGIC;
         clkO:  OUT STD_LOGIC);
@@ -69,7 +69,7 @@ architecture Behavioural of Control_Unit is
 	SIGNAL iNRst, iNSetO: STD_LOGIC;
 	
 	COMPONENT contMem
-		PORT (add:  IN STD_LOGIC_VECTOR (5 DOWNTO 0);
+		PORT (add:  IN STD_LOGIC_VECTOR (4 DOWNTO 0);
 				dOut: OUT STD_LOGIC_VECTOR (2 DOWNTO 0));
 	END COMPONENT;
 	
